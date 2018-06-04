@@ -1,71 +1,96 @@
-var db = require('../models')
+const Article = require('../models/Article');
+const Comments = require('../models/Comment');
 
-module.exports = function (app) {
+module.exports = app => {
 
-    app.get("/comments", function (req, res) {
-        db.Comment.find({}, function (error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(doc);
-            }
+    app.get('/', (req, res) => {
+        Article.find().sort({
+            scrapeDate: 1
+        }).exec((err, docs) => {
+            res.render('index', {
+                docs
+            });
         });
     });
 
-    app.get("/articles", function (req, res) {
-        db.Article.find({}, function (error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(doc);
-            }
+    app.get('/scrape', (req, res) => {
+        require('../services/scraper')(scrapedArticles => {
+            scrapedArticles.forEach(article => {
+                let entry = new Article(article);
+                entry.save((err, doc) => {
+                    try {
+                        if (err) {
+                            throw err
+                        } else console.log(doc);
+                    } catch (err) {
+                        console.log(err.errmsg);
+                    }
+                });
+            });
+            res.redirect('/');
         });
     });
 
-    app.get("/", function (req, res) {
-        db.Article.find({}, function (error, found) {
-            if (error) {
-                res.send("ERROR")
-            } else {
-                var returnData = {
-                    entry: found
+    app.get('/article/:id', (req, res) => {
+        let articleId = req.params.id;
+
+        Article.findOne({
+                _id: articleId
+            })
+            .populate({
+                'path': 'comments',
+                'options': {
+                    'sort': {
+                        'timestamp': -1
+                    }
                 }
-                res.render("index", returnData)
+            })
+            .exec((err, article) => {
+                if (err) {
+                    console.log('THROW ERR', err.msg);
+                } else {
+                    res.render('articleview', {
+                        article
+                    });
+                }
+            });
+    });
+
+    app.post('/addcomment/:articleId', (req, res) => {
+
+        let newComment = new Comments(req.body);
+
+        newComment.save((err, comment) => {
+            if (err) {
+                console.log(err.msg);
+            } else {
+                Article.update({
+                    '_id': req.params.articleId
+                }, {
+                    '$push': {
+                        'comments': comment._id
+                    }
+                }, (err, newDoc) => {
+                    res.redirect(`/article/${req.params.articleId}`);
+                });
             }
+        });
+    });
+
+    app.post('/deletecomment/:articleId/:commentId', (req, res) => {
+        Article.update({
+            '_id': req.params.articleId
+        }, {
+            '$pull': {
+                'comments': req.params.commentId
+            }
+        }, (err, removedComment) => {
+            Comments.remove({
+                '_id': req.params.commentId
+            }, (err, removed) => {
+                console.log(removed);
+                res.redirect(`/article/${req.params.articleId}`);
+            });
         })
     });
-
-    app.post("/articles/:id", function (req, res) {
-        db.Comment
-            .create(req.body)
-            .then(newComment => {
-                return db.Article.update({
-                    _id: req.params.id
-                }, {
-                    $push: {
-                        comment: newComment._id
-                    }
-                })
-            })
-            .then(returnData => {
-                res.json(newComment)
-            })
-            .catch(err => {
-                res.json(err)
-            })
-    });
-
-    app.get("/articles/:id", function (req, res) {
-        var id = req.params.id
-        console.log(id)
-        db.Article
-            .findOne({
-                _id: id
-            })
-            .populate("Comment")
-            .then(ArticleComment => {
-                res.send(ArticleComment)
-            })
-
-    });
-}
+};
