@@ -18,6 +18,7 @@ Keeping it simple with standard Bootstrap font, the user can enjoy this site wit
 
 ![Desktop View](/public/images/screenshots/desktop.JPG)
 
+
 * Tablet View
 ***
 
@@ -29,9 +30,7 @@ Keeping it simple with standard Bootstrap font, the user can enjoy this site wit
 
 ![Mobile View](/public/images/screenshots/mobile.JPG)
 
-<p align="center">
-  <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="256" title="Github Logo">
-</p>
+
 
 ### Technologies Used 
 * nodeJS
