@@ -1,3 +1,4 @@
+console.log(__dirname);
 var Article = require('../models/Article.js');
 var Comment = require('../models/Comment.js');
 var axios = require("axios");
