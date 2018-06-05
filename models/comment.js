@@ -16,9 +16,9 @@ var CommentSchema = new Schema({
         required: true
     },
     timestamp: {
-        type: String,
-        required: true
-    },
+        type: Date,
+        default: Date.now
+    }
 });
 
 var Comment = mongoose.model("Comment", CommentSchema);

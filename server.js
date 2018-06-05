@@ -18,7 +18,7 @@ var app = express();
 // Use Express-handlebars for front end
 app.set("views", "./views")
 app.engine("handlebars", exphbs({
-    extname: ".handlebars"
+    defaultLayout: "main"
 }));
 app.set("view engine", "handlebars");
 
@@ -35,7 +35,9 @@ app.use(bodyParser.json({
 }));
 
 // Use express.static to serve the public folder as a static directory
-app.use(express.static("public"));
+app.use('/public', express.static(__dirname + '/public'));
+app.use('/bootstrap', express.static(__dirname + "/node_modules/bootstrap/dist"));
+app.use('/jquery', express.static(__dirname + "/node_modules/jquery/dist"));
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/mongo-scraper");
