@@ -1,4 +1,5 @@
-var db = require('../models');
+var Article = require('../models/Article.js');
+var Comment = require('../models/Comment.js');
 var axios = require("axios");
 var cheerio = require('cheerio');
 
@@ -6,7 +7,7 @@ var cheerio = require('cheerio');
 module.exports = function (app) {
 
     app.get("/", function (req, res) {
-        db.Article.find().sort({
+        Article.find().sort({
             scrapeDate: 1
         }).exec(function (error, docs) {
             console.log(docs);
@@ -20,7 +21,7 @@ module.exports = function (app) {
         });
     });
     app.get("/articles", function (req, res) {
-        db.Article.find().sort({
+        Article.find().sort({
             scrapeDate: 1
         }).exec(function (error, docs) {
             console.log(docs);
@@ -32,7 +33,7 @@ module.exports = function (app) {
         });
     });
     app.get("/comment", function (req, res) {
-        db.Comment.find({}).exec(function (error, docs) {
+        Comment.find({}).exec(function (error, docs) {
             console.log(docs);
             if (error) {
                 res.send(error)
@@ -78,9 +79,9 @@ module.exports = function (app) {
                     .text()
                     .trim();
                 // Create a new Article using the `result` object built from scraping
-                db.Article
+                Article
                     .create(result)
-                    .then(function (err, dbArticle) {
+                    .then(function (err, Article) {
                         if (err) {
                             console.log(err)
                         } else {
@@ -98,7 +99,7 @@ module.exports = function (app) {
     app.get("/article/:id", function (req, res) {
         var articleId = req.params.id;
 
-        db.Article.findOne({
+        Article.findOne({
             _id: articleId
         }).populate({
             'path': 'comments',
@@ -120,14 +121,14 @@ module.exports = function (app) {
     });
 
     app.post("/addcomment/:articleId", function (req, res) {
-        var newComment = new db.Comment(req.body);
+        var newComment = new Comment(req.body);
         console.log("New Comment:" + newComment);
 
         newComment.save(function (err, comment) {
             if (err) {
                 console.log(err.msg);
             } else {
-                db.Article.update({
+                Article.update({
                     '_id': req.params.articleId
                 }, {
                     '$push': {
@@ -147,7 +148,7 @@ module.exports = function (app) {
     });
 
     app.post("/deletecomment/:articleId/:commentId", function (req, res) {
-        db.Article.update({
+        Article.update({
             '_id': req.params.articleId
         }, {
             '$pull': {
@@ -157,7 +158,7 @@ module.exports = function (app) {
             if (err) {
                 console.log(err)
             } else {
-                db.Comment.remove({
+                Comment.remove({
                     '_id': req.params.commentId
                 }).then(function (err, removed) {
                     if (err) {
