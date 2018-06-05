@@ -7,10 +7,6 @@ var mongoose = require("mongoose");
 var morgan = require("morgan");
 
 
-
-// Require all models
-var db = require("./models");
-
 var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
@@ -44,7 +40,16 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_b4156xjx:5j6v1uki
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-require("./routes/api-routes.js")(app);
+let db = mongoose.connection;
+
+// Show any mongoose errors
+db.on("error", err => console.log(`Mongoose Error: ${err}`));
+
+// Once logged in to the db through mongoose, log a success message
+db.once("open", () => console.log('Mongoose connection successful'));
+
+//---- routes ----//
+require('./routes/api-routes')(app);
 
 // Start the server
 app.listen(PORT, function () {
