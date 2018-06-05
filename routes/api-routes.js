@@ -1,4 +1,6 @@
-var db = require('../models')
+var db = require('../models');
+var axios = require("axios");
+var cheerio = require('cheerio');
 
 
 module.exports = function (app) {
@@ -7,7 +9,7 @@ module.exports = function (app) {
         db.Article.find().sort({
             scrapeDate: 1
         }).exec(function (error, docs) {
-            console.log(docs);  
+            console.log(docs);
             if (error) {
                 res.send(error)
             } else {
@@ -40,23 +42,58 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/scrape', (req, res) => {
-        require('../services/scraper')(scrapedArticles => {
-            scrapedArticles.forEach(article => {
-                let entry = new Article(article);
-                entry.save((err, doc) => {
-                    try {
+     app.get("/about", function (req, res) {
+        res.render("about")
+     });
+
+    app.get("/scrape", function (req, res) {
+        axios.get("https://www.usatoday.com/sports/").then(function (response) {
+
+            // Then, we load that into cheerio and save it to $ for a shorthand selector
+            var $ = cheerio.load(response.data);
+
+            // Now, we grab every article with this class, and do the following:
+            $("li.hgpm-item").each(function (i, element) {
+                // Save an empty result object
+                var result = {};
+                result.img = $(this)
+                    .children(".hgpm-link")
+                    .children(".hgpm-grid-wrap")
+                    .children("img")
+                    .attr('src');
+                result.title = $(this)
+                    .children(".hgpm-link")
+                    .children(".hgpm-grid-wrap")
+                    .children(".hgpm-image-hed-wrap")
+                    .children("p")
+                    .text()
+                    .trim();
+                result.link = $(this)
+                    .children(".hgpm-link")
+                    .attr('href');
+                result.category = $(this)
+                    .children('.hgpm-link')
+                    .children(".hgpm-grid-wrap")
+                    .children(".hgsm-ssts-label-top-left")
+                    .text()
+                    .trim();
+                // Create a new Article using the `result` object built from scraping
+                db.Article
+                    .create(result)
+                    .then(function (err, dbArticle) {
                         if (err) {
-                            throw err
-                        } else console.log(doc);
-                    } catch (err) {
-                        console.log(err.errmsg);
-                    }
-                });
+                            console.log(err)
+                        } else {
+                            console.log("Article added to MongoDB");
+                            console.log(i);
+                        }
+                    });
             });
-            res.redirect('/');
+            res.redirect('/')
         });
     });
+
+
 
     app.get("/article/:id", function (req, res) {
         var articleId = req.params.id;
@@ -64,13 +101,13 @@ module.exports = function (app) {
         db.Article.findOne({
             _id: articleId
         }).populate({
-                'path': 'comments',
-                'options': {
-                    'sort': {
-                        'timestamp': -1
-                    }
+            'path': 'comments',
+            'options': {
+                'sort': {
+                    'timestamp': -1
                 }
-            }).exec(function (err, article) {
+            }
+        }).exec(function (err, article) {
             if (err) {
                 console.log('THROW ERR', err.msg);
             } else {
@@ -84,7 +121,7 @@ module.exports = function (app) {
 
     app.post("/addcomment/:articleId", function (req, res) {
         var newComment = new db.Comment(req.body);
-        console.log("New Comment:" + newComment);   
+        console.log("New Comment:" + newComment);
 
         newComment.save(function (err, comment) {
             if (err) {
@@ -92,17 +129,17 @@ module.exports = function (app) {
             } else {
                 db.Article.update({
                     '_id': req.params.articleId
-                    }, {
-                        '$push': {
-                            'comments': comment._id
-                        }
-                    }).exec(function (err, doc) {
-                    console.log(doc);    
+                }, {
+                    '$push': {
+                        'comments': comment._id
+                    }
+                }).exec(function (err, doc) {
+                    console.log(doc);
                     if (err) {
                         console.log(err)
                     } else {
-                       // res.json(doc)
-                    res.redirect(`/article/${req.params.articleId}`);
+                        // res.json(doc)
+                        res.redirect(`/article/${req.params.articleId}`);
                     }
                 });
             }
@@ -133,5 +170,4 @@ module.exports = function (app) {
             }
         });
     });
-};
-
+}

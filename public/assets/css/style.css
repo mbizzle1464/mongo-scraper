@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+/*body*/
+
+body {
+    background-color: #d3d3d3;
+}
+.container {
+    background-color: #343a40;
+}
+
+@media (max-width: 1060px) {
+    .card-columns {
+        -webkit-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 1.25rem;
+        column-gap: 1.25rem;
+    }
+    .card-columns .card {
+        display: inline-block;
+        width: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+    .card-columns {
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-columns {
+        -webkit-column-count: 1;
+        column-count: 1;
+    }

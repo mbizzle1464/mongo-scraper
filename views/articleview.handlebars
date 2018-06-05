@@ -1,5 +1,4 @@
-
-{{> jumbotron}}
+ {{> jumbotron}}
 
 
 <div class="container-fluid">
@@ -11,7 +10,10 @@
                     <div>
                         <h5>{{article.title}}</h5>
                         <p class="card-text">{{article.category}}</p>
-                    <a href="https://www.usatoday.com/story/sports{{link}}" target="_blank" class="btn btn-primary">View Article</a>
+                        <div class="d-flex justify-content-between">
+                            <a href="https://www.usatoday.com/story/sports{{link}}" target="_blank" class="btn btn-primary">View Article</a>
+                            <a href="/" class="btn btn-danger">Back</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -20,7 +22,7 @@
             {{> articleview-parts/add-comment}}
         </div>
     </div>
-
+    <br>
     <div class="row mt-20-row">
         <div class="col">
             <div class="card">
@@ -40,3 +42,5 @@
         </div>
     </div>
 </div>
+<br>
+<br>
