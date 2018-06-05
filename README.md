@@ -14,11 +14,11 @@ Keeping it simple with standard Bootstrap font, the user can enjoy this site wit
 
 ### Views:
 
-![Desktop View](public/images/screenshots/desktop.jpg)
+![Desktop View](../public/images/screenshots/desktop.jpg)
 
-![Tablet View](public/images/screenshots/tablet.jpg)
+![Tablet View](../public/images/screenshots/tablet.jpg)
 
-![Mobile View](public/images/screenshots/mobile.jpg)
+![Mobile View](../public/images/screenshots/mobile.jpg)
 
 ### Technologies Used 
 * nodeJS
