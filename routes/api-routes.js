@@ -1,4 +1,5 @@
 console.log(__dirname);
+console.log("*****************************************\n*****************************************\n*****************************************\n")
 var Article = require('../models/Article.js');
 var Comment = require('../models/Comment.js');
 var axios = require("axios");
