@@ -13,10 +13,19 @@ Sport Scraper is designed to be minimalistic. The soft grays allow the eye to as
 Keeping it simple with standard Bootstrap font, the user can enjoy this site without having to wonder off elsewhere. 
 
 ### Views:
+* Desktop view 
+***
 
 ![Desktop View](/public/images/screenshots/desktop.JPG)
 
+* Tablet View
+***
+
 ![Tablet View](/public/images/screenshots/tablet.JPG)
+
+
+* Mobile View
+***
 
 ![Mobile View](/public/images/screenshots/mobile.JPG)
 
