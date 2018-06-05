@@ -15,19 +15,21 @@ Keeping it simple with standard Bootstrap font, the user can enjoy this site wit
 ### Views:
 * Desktop view 
 ***
-
+As you can see, this application is structured to provide highlights of each article with two actions to the user.  The user can select view article or comment on article. 
 ![Desktop View](/public/images/screenshots/desktop.JPG)
 
 
 * Tablet View
 ***
 
+If the user selects a comment button, it will take them to the comment page which will allow the user to still view the article or provide a comment to the comment thread. 
 ![Tablet View](/public/images/screenshots/tablet.JPG)
 
 
 * Mobile View
 ***
 
+This application is mobile friendly and can be seen here. 
 ![Mobile View](/public/images/screenshots/mobile.JPG)
 
 
