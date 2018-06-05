@@ -39,10 +39,10 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use('/jquery', express.static(__dirname + "/node_modules/jquery/dist"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_b4156xjx:k5akd0fhbbn3k73fgps3iqlggn@ds145325.mlab.com:45325/heroku_b4156xjx"
-
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
-mongoose.connect(ONGODB_URI);
+mongoose.connect(MONGODB_URI);
+
 require("./routes/api-routes.js")(app);
 
 // Start the server
