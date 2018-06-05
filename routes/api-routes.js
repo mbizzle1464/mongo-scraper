@@ -1,7 +1,10 @@
+var path = require("path");
 console.log(__dirname);
 console.log("*****************************************\n*****************************************\n*****************************************\n")
-var Article = require('../models/Article.js');
-var Comment = require('../models/Comment.js');
+//console.log(path.join(__dirname, "/../models"));
+
+var Article = require('../models/Article');
+var Comments = require('../models/Comment');
 var axios = require("axios");
 var cheerio = require('cheerio');
 
@@ -35,7 +38,7 @@ module.exports = function (app) {
         });
     });
     app.get("/comment", function (req, res) {
-        Comment.find({}).exec(function (error, docs) {
+        Comments.find({}).exec(function (error, docs) {
             console.log(docs);
             if (error) {
                 res.send(error)
