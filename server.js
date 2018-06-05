@@ -39,8 +39,10 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use('/jquery', express.static(__dirname + "/node_modules/jquery/dist"));
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo-scraper"
+
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/mongo-scraper");
+mongoose.connect(MONGODB_URI);
 
 require("./routes/api-routes.js")(app);
 
