@@ -6,7 +6,7 @@ console.log("*****************************************\n************************
 
 
 var Article = require('../models/article');
-var Comments = require('../models/comment');
+var Comment = require('../models/comment');
 var axios = require("axios");
 var cheerio = require('cheerio');
 
@@ -40,7 +40,7 @@ module.exports = function (app) {
         });
     });
     app.get("/comment", function (req, res) {
-        Comments.find({}).exec(function (error, docs) {
+        Comment.find({}).exec(function (error, docs) {
             console.log(docs);
             if (error) {
                 res.send(error)
