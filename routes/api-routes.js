@@ -1,7 +1,17 @@
 var path = require("path");
 //console.log(__dirname);
 console.log("*****************************************\n*****************************************\n*****************************************\n")
-console.log(path.join(__dirname, "../models/Article"));
+// console.log(path.join(__dirname, "../models/Article.js"));
+
+const testFolder = '../models';
+const fs = require('fs');
+
+fs.readdir(testFolder, (err, files) => {
+    files.forEach(file => {
+        console.log(file);
+    });
+})
+
 var Article = require('/../models/Article');
 var Comments = require('/../models/Comment');
 var axios = require("axios");
