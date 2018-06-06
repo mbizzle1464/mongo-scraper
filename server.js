@@ -47,7 +47,7 @@ mongoose.connect(MONGODB_URI);
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
-const testFolder = '../models';
+const testFolder = './models';
 const fs = require('fs');
 
 
