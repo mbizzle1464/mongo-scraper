@@ -5,8 +5,8 @@ console.log("*****************************************\n************************
 
 
 
-var Article = require('/../models/Article');
-var Comments = require('/../models/Comment');
+var Article = require('/../models/article');
+var Comments = require('/../models/comment');
 var axios = require("axios");
 var cheerio = require('cheerio');
 
