@@ -35,7 +35,7 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use('/bootstrap', express.static(__dirname + "/node_modules/bootstrap/dist"));
 app.use('/jquery', express.static(__dirname + "/node_modules/jquery/dist"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_b4156xjx:5j6v1ukiode339ohklrl5poqrc@ds145325.mlab.com:45325/heroku_b4156xjx"
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_kfxmcddm:kptfu1q13qr5af9sl8mn8vl1ht@ds155684.mlab.com:55684/heroku_kfxmcddm"
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
