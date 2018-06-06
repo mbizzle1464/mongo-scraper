@@ -1,9 +1,9 @@
 var path = require("path");
-console.log(__dirname);
+//console.log(__dirname);
 console.log("*****************************************\n*****************************************\n*****************************************\n")
-//console.log(path.join(__dirname, "/../models"));
-
-var Comments = require('../models/Comment');
+console.log(path.join(__dirname, "../models/Article"));
+var Article = require('./../models/Article');
+var Comments = require('./../models/Comment');
 var axios = require("axios");
 var cheerio = require('cheerio');
 

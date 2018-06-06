@@ -40,14 +40,6 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_b4156xjx:5j6v1uki
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-let db = mongoose.connection;
-
-// Show any mongoose errors
-db.on("error", err => console.log(`Mongoose Error: ${err}`));
-
-// Once logged in to the db through mongoose, log a success message
-db.once("open", () => console.log('Mongoose connection successful'));
-
 //---- routes ----//
 require('./routes/api-routes')(app);
 
