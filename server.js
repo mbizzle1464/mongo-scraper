@@ -41,7 +41,7 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 //---- routes ----//
-require('./routes/api-routes')(app);
+// require('./routes/api-routes')(app);
 
 // Start the server
 app.listen(PORT, function () {
