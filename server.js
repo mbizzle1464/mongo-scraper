@@ -47,3 +47,14 @@ require('./routes/api-routes')(app);
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
 });
+const testFolder = '../models';
+const fs = require('fs');
+
+
+fs.readdir(testFolder, (err, files) => {
+    console.log(files);
+    files.forEach(file => {
+        console.log(file);
+        console.log("*****************************************\n*****************************************\n*****************************************\n");
+    });
+})
